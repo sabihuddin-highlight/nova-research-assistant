@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  background: #000000;
+  color: #f5f5f4;
+  font-feature-settings: "cv02", "cv03", "cv11", "ss01";
+}
+
+/* Background: pure black + dot-grid texture, masked into a soft vignette.
+   Inspired by mission-control / observatory interfaces. */
+.app-bg {
+  position: relative;
+  isolation: isolate;
+}
+.app-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 0 0;
+  mask-image: radial-gradient(ellipse 90% 80% at center, black 30%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at center, black 30%, transparent 90%);
+  z-index: -1;
+  pointer-events: none;
+}
+.app-bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 22% 8%, rgba(91, 128, 255, 0.04) 0%, transparent 38%),
+    radial-gradient(circle at 88% 92%, rgba(94, 192, 215, 0.03) 0%, transparent 42%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Glass surfaces — much more subtle now. */
+.glass {
+  background: rgba(13, 13, 12, 0.62);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.glass-strong {
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Hairline divider — mission-control style. */
+.hairline {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.12) 8%,
+    rgba(255, 255, 255, 0.12) 92%,
+    transparent
+  );
+  height: 1px;
+}
+
+/* Mono technical label, e.g. "// SYSTEM / READY". */
+.label-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+  color: rgba(245, 245, 244, 0.55);
+}
+
+/* Stark uppercase display headline. */
+.display-headline {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* Scrollbar. */
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a28 transparent;
+}
+.scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-area::-webkit-scrollbar-thumb {
+  background: #2a2a28;
+  border-radius: 4px;
+}
+
+/* Markdown. */
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+  color: #f5f5f4;
+}
+.markdown h2 { font-size: 1.05rem; }
+.markdown h3 { font-size: 0.95rem; color: #d3d2cf; }
+.markdown p {
+  margin: 0.55rem 0;
+  line-height: 1.65;
+  color: #c8c6c1;
+}
+.markdown strong { color: #f5f5f4; font-weight: 600; }
+.markdown a {
+  color: #a5bcff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(165, 188, 255, 0.28);
+  transition: all 0.15s ease;
+}
+.markdown a:hover {
+  color: #c4d4ff;
+  border-bottom-color: rgba(165, 188, 255, 0.7);
+}
+.markdown ul,
+.markdown ol { margin: 0.6rem 0 0.6rem 1.25rem; }
+.markdown li { margin: 0.3rem 0; color: #c8c6c1; }
+.markdown code {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.12rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #f5f5f4;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+.markdown pre {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.85rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+
+/* Shimmer for the "thinking" bar. */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 245, 244, 0.35) 0%,
+    rgba(245, 245, 244, 0.95) 50%,
+    rgba(245, 245, 244, 0.35) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 2.2s linear infinite;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
+/* Focus ring — subtle, mono accent. */
+.gradient-ring {
+  position: relative;
+}
+.gradient-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(91, 128, 255, 0.5), rgba(124, 158, 255, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.gradient-ring:focus-within::before {
+  opacity: 1;
+}
+
+/* Corner brackets — mission-panel ornament. Applied to elements that want
+   subtle "registration marks" at their corners. */
+.corner-marks {
+  position: relative;
+}
+.corner-marks::before,
+.corner-marks::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+}
+.corner-marks::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.corner-marks::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}

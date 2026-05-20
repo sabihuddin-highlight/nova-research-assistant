@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://127.0.0.1:8000/health)",
+      "Bash(curl -s http://127.0.0.1:3000 -o /dev/null -w \"frontend: %{http_code}\\\\n\")",
+      "Bash(curl -s -X POST http://127.0.0.1:8000/chat -H \"Content-Type: application/json\" -d '{\"thread_id\":\"bugtest-1\",\"message\":\"What does Stripe do?\"}')",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s -X POST http://127.0.0.1:8000/chat -H \"Content-Type: application/json\" -d '{\"thread_id\":\"bugtest-2\",\"message\":\"tell me about that company\"}')",
+      "Bash(netstat -ano)",
+      "Bash(tasklist /FI \"PID eq 25188\")",
+      "PowerShell(Get-Process -Id 25188 -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"ProcessId = 25188\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/health)",
+      "Read(//tmp/**)",
+      "Bash(xxd)",
+      "Bash(curl -s -o /tmp/r5.json -w \"HTTP %{http_code}\\\\n\" -X POST http://127.0.0.1:8000/chat -H \"Content-Type: application/json\" -d '{\"thread_id\":\"bugtest-B\",\"message\":\"who are their main investors?\"}')",
+      "Bash(python -c ' *)",
+      "Bash(curl -s -o /tmp/r6.json -w \"HTTP %{http_code}\\\\n\" -X POST http://127.0.0.1:8000/chat -H \"Content-Type: application/json\" -d '{\"thread_id\":\"bugtest-C\",\"message\":\"\"}')",
+      "Bash(curl -s -o /tmp/r7.json -w \"HTTP %{http_code}\\\\n\" -X POST http://127.0.0.1:8000/chat/resume -H \"Content-Type: application/json\" -d '{\"thread_id\":\"nonexistent-thread\",\"answer\":\"foo\"}')",
+      "Bash(python -c \"import sys,json,io;d=json.load\\(io.open\\(sys.argv[1],encoding='utf-8'\\)\\);print\\('status:', d['status']\\);print\\('focus:', d.get\\('company_focus'\\)\\);print\\('answer:', \\(d.get\\('answer'\\) or ''\\)[:200]\\);print\\('clarif:', d.get\\('clarification_question'\\)\\);print\\('attempts:', d.get\\('research_attempts'\\)\\);[print\\(' -', a['agent'],':',a['summary'][:80]\\) for a in d.get\\('agent_trail',[]\\)]\" /tmp/r14.json)"
+    ]
+  }
+}
