@@ -2,8 +2,6 @@
 
 A full-stack, multi-agent business-research assistant built with **LangGraph**, **FastAPI**, **Google Gemini**, and **Next.js**. Four specialised agents collaborate to gather, validate, and synthesise information about companies, with multi-turn conversation memory and human-in-the-loop clarification.
 
-Built as the Synapse AI Solutions take-home assignment.
-
 ---
 
 ## Architecture
@@ -65,7 +63,7 @@ Built as the Synapse AI Solutions take-home assignment.
 ## Project layout
 
 ```
-synapse-research-assistant/
+nova-research-assistant/
 ├── backend/
 │   ├── app/
 │   │   ├── config.py              # Pydantic settings (env vars)
@@ -197,11 +195,11 @@ Return persisted conversation history.
 
 **Why a separate `ask_clarification` node?** Because LangGraph re-runs the *entire* node when it resumes from an `interrupt()`. Putting the LLM judgement and the interrupt in the same node would re-invoke the LLM on resume, wasting tokens and risking inconsistent decisions. Splitting them keeps the assessment cached in checkpoint state.
 
-**Why Tavily-python instead of Tavily MCP?** The assignment notes MCP as *preferred*, not required. The MCP server is a thin wrapper over the same HTTP API, and the abstraction in [backend/app/tools/search.py](backend/app/tools/search.py) returns the exact shape an MCP `search` tool would. Swapping to MCP later means replacing one function — the Research Agent and graph are unaffected.
+**Why Tavily-python instead of Tavily MCP?** The project uses the Tavily Python SDK directly for simplicity. The abstraction in [backend/app/tools/search.py](backend/app/tools/search.py) returns the exact shape an MCP `search` tool would, making it straightforward to transition to MCP if required in the future — the Research Agent and graph remain unaffected.
 
 **Why peer-review confidence rather than just trusting the Research Agent?** Self-grading is biased. The Validator Agent is a separate LLM call with a different prompt focused on coverage and source credibility. It can also articulate *specific gaps* that the Research Agent uses as a retry hint on the next loop.
 
-**Why `MemorySaver`?** Simplicity for a take-home. For production, swap to `SqliteSaver` (single line change in `build_graph`) or `PostgresSaver` for multi-replica deployments.
+**Why `MemorySaver`?** Simplicity for demonstration and testing. For production, swap to `SqliteSaver` (single line change in `build_graph`) or `PostgresSaver` for multi-replica deployments.
 
 ---
 
